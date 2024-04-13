@@ -20,17 +20,17 @@ import lombok.NoArgsConstructor;
 public class CasesEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
     private LocalDate date;
 
-    @Column(name = "total")
-    private String totalCases;
+    @Column
+    private String total;
 
     @Column(name = "new")
-    private String newCases;
+    private String newOccurrences;
 
     @ManyToOne
     @JoinColumn(name = "country_id", nullable = false)

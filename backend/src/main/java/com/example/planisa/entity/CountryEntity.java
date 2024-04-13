@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class CountryEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
@@ -34,4 +34,7 @@ public class CountryEntity {
     @OneToMany(mappedBy = "country")
     private List<DeathsEntity> deaths;
 
+    public CountryEntity(String country) {
+        this.country = country;
+    }
 }

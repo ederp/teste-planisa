@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 public class DeathsDTO {
 
     private LocalDate date;
-    private String totalCases;
-    private String newCases;
+    private String totalDeaths;
+    private String newDeaths;
+    private String country;
 }

@@ -19,4 +19,5 @@ public class CasesDTO {
     private LocalDate date;
     private String totalCases;
     private String newCases;
+    private String country;
 }
