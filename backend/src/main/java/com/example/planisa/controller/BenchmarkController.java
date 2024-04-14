@@ -20,6 +20,9 @@ import com.example.planisa.service.BenchmarkService;
 import com.example.planisa.service.CasesService;
 import com.example.planisa.service.DeathsService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
 @RestController
 @RequestMapping("/benchmark")
 public class BenchmarkController {
@@ -33,6 +36,8 @@ public class BenchmarkController {
     @Autowired
     private DeathsService deathsService;
 
+    @Operation(summary = "Comparar o total de casos entre dois países num determinado intervalo de tempo", description = "", tags={  })
+    @ApiResponse(responseCode = "200", description = "Lista dos casos dos países")
     @GetMapping("cases/dates/{country_1}/{country_2}")
     public ResponseEntity<List<CasesDTO>> casesBetweenDates(@PathVariable("country_1") String country1,
         @PathVariable("country_2") String country2, @RequestParam LocalDate from, 
@@ -45,9 +50,11 @@ public class BenchmarkController {
             listsCasesDTOs.addAll(this.casesService.totalCases(country1, from, to));
             listsCasesDTOs.addAll(this.casesService.totalCases(country2, from, to));
 
-            return ResponseEntity.status(HttpStatus.FOUND).body(listsCasesDTOs);
+            return ResponseEntity.status(HttpStatus.OK).body(listsCasesDTOs);
     }
 
+    @Operation(summary = "Comparar o total de casos entre dois países num determinado dia", description = "", tags={  })
+    @ApiResponse(responseCode = "200", description = "Lista dos casos dos países")
     @GetMapping("cases/date/{country_1}/{country_2}")
     public ResponseEntity<List<CasesDTO>> casesByOneDate(@PathVariable("country_1") String country1,
     @PathVariable("country_2") String country2, @RequestParam LocalDate from){
@@ -59,9 +66,11 @@ public class BenchmarkController {
         listsCasesDTOs.addAll(this.casesService.casesByDate(country1, from));
         listsCasesDTOs.addAll(this.casesService.casesByDate(country2, from));
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(listsCasesDTOs);
+        return ResponseEntity.status(HttpStatus.OK).body(listsCasesDTOs);
     }
 
+    @Operation(summary = "Comparar o total de mortes entre dois países num determinado intervalo de tempo", description = "", tags={  })
+    @ApiResponse(responseCode = "200", description = "Lista das mortes dos países")
     @GetMapping("deaths/dates/{country_1}/{country_2}")
     public ResponseEntity<List<DeathsDTO>> deathsBetweenDates(@PathVariable("country_1") String country1,
         @PathVariable("country_2") String country2, @RequestParam LocalDate from, 
@@ -74,9 +83,11 @@ public class BenchmarkController {
             listsDeathsDTOs.addAll(this.deathsService.totalDeaths(country1, from, to));
             listsDeathsDTOs.addAll(this.deathsService.totalDeaths(country2, from, to));
 
-            return ResponseEntity.status(HttpStatus.FOUND).body(listsDeathsDTOs);
+            return ResponseEntity.status(HttpStatus.OK).body(listsDeathsDTOs);
     }
 
+    @Operation(summary = "Comparar o total de mortes entre dois países num determinado dia", description = "", tags={  })
+    @ApiResponse(responseCode = "200", description = "Lista das mortes dos países")
     @GetMapping("deaths/date/{country_1}/{country_2}")
     public ResponseEntity<List<DeathsDTO>> deathsByOneDate(@PathVariable("country_1") String country1,
     @PathVariable("country_2") String country2, @RequestParam LocalDate from){
@@ -88,6 +99,6 @@ public class BenchmarkController {
         listsDeathsDTOs.addAll(this.deathsService.deathsByDate(country1, from));
         listsDeathsDTOs.addAll(this.deathsService.deathsByDate(country2, from));
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(listsDeathsDTOs);
+        return ResponseEntity.status(HttpStatus.OK).body(listsDeathsDTOs);
     }
 }
