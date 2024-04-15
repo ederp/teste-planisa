@@ -13,28 +13,29 @@
         <h2>Total de Casos e Mortes entre Dois Países</h2>
         <form id="totalCasesDeathsForm">
             <label for="listCountry1">País 1:</label>
-            <input list="countries1" id="listCountry1">
+            <input list="countries1" id="listCountry1" class="country-input" required>
             <datalist id="country1"></datalist>
 
             <label for="listCountry2">País 2:</label>
-            <input list="countries2" id="listCountry2">
+            <input list="countries2" id="listCountry2" class="country-input" required>
             <datalist id="country2"></datalist>
 
             <label class="tooltip" for="fromDate">De:</label>
-            <input type="date" id="fromDate">
+            <input type="date" id="fromDate" min="2020-01-22" max="2023-03-09" required>
 
             <label class="tooltip" for="toDate">Até:</label>
-            <input type="date" id="toDate">
+            <input type="date" id="toDate" min="2020-01-22" max="2023-03-09" required>
 
             <label for="dataType">Dados:</label>
-            <select id="dataType">
+            <select id="dataType" required>
+                <option selected disabled>Selecione</option>
                 <option value="totalCases">Total de Casos</option>
                 <option value="totalDeaths">Total de Mortes</option>
                 <option value="newCases">Novos Casos</option>
                 <option value="newDeaths">Novas Mortes</option>
             </select>
 
-            <button type="submit">Obter Dados</button>
+            <button type="submit" id="getDataBtn" disabled>Obter Dados</button>
         </form>
 
         <div id="result"></div>
