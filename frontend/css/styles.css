@@ -1,0 +1,44 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h1,h2{
+    text-align: center;
+}
+
+h2{
+    margin-bottom: 55px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: help; /* Altera o cursor para indicar que o elemento é clicável */
+}
+
+.tooltip:hover::after {
+    content: "Selecionar uma data entre 22-01-2020 e 09-03-2023";
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    bottom: 150%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    width: 200px;
+    text-align: center;
+}
+
+.tooltip:hover::before {
+    content: "";
+    position: absolute;
+    bottom: 10px; /* Ajusta a posição vertical da seta */
+    left: 50%;
+    border-width: 10px; /* Tamanho da seta */
+    border-style: solid;
+    border-color: #333 transparent transparent transparent; /* Cor da seta */
+    transform: translateX(-50%);
+}

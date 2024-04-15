@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COVID-19 Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>COVID-19 Dashboard</h1>
+
+        <h2>Total de Casos e Mortes entre Dois Países</h2>
+        <form id="totalCasesDeathsForm">
+            <label for="listCountry1">País 1:</label>
+            <input list="countries1" id="listCountry1">
+            <datalist id="country1"></datalist>
+
+            <label for="listCountry2">País 2:</label>
+            <input list="countries2" id="listCountry2">
+            <datalist id="country2"></datalist>
+
+            <label class="tooltip" for="fromDate">De:</label>
+            <input type="date" id="fromDate">
+
+            <label class="tooltip" for="toDate">Até:</label>
+            <input type="date" id="toDate">
+
+            <label for="dataType">Dados:</label>
+            <select id="dataType">
+                <option value="totalCases">Total de Casos</option>
+                <option value="totalDeaths">Total de Mortes</option>
+                <option value="newCases">Novos Casos</option>
+                <option value="newDeaths">Novas Mortes</option>
+            </select>
+
+            <button type="submit">Obter Dados</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
