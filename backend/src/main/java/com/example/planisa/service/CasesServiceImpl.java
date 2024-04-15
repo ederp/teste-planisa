@@ -27,7 +27,7 @@ public class CasesServiceImpl implements CasesService{
     @Override
     public List<CasesDTO> totalCases(String country, LocalDate initialDate, LocalDate finalDate) {
         // TODO Auto-generated method stub
-        this.apiCovidCallService.callApiCovidByCountry(country, "cases");
+        casesRepository.saveAll(this.apiCovidCallService.callApiCovidByCountry(country, "cases"));
         Long idCountry = this.countryRepository.findIdByName(country);
         List<CasesDTO> casesResult = 
             this.casesEntityToDTO(casesRepository.casesByCountry(idCountry, initialDate, finalDate), country);
@@ -37,7 +37,7 @@ public class CasesServiceImpl implements CasesService{
     @Override
     public List<CasesDTO> casesByDate(String country, LocalDate date) {
         // TODO Auto-generated method stub
-        this.apiCovidCallService.callApiCovidByDate(date.toString(), "cases");
+        casesRepository.saveAll(this.apiCovidCallService.callApiCovidByDate(date.toString(), "cases"));
         Long idCountry = this.countryRepository.findIdByName(country);
         List<CasesDTO> casesResult = 
             this.casesEntityToDTO(casesRepository.casesByCountry(idCountry, date, date), country);

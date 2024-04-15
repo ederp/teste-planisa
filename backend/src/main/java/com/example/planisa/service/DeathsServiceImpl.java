@@ -27,7 +27,7 @@ public class DeathsServiceImpl implements DeathsService{
     @Override
     public List<DeathsDTO> totalDeaths(String country, LocalDate initialDate, LocalDate finalDate) {
         // TODO Auto-generated method stub
-        this.apiCovidCallService.callApiCovidByCountry(country, "deaths");
+        deathsRepository.saveAll(this.apiCovidCallService.callApiCovidByCountry(country, "deaths"));
         Long idCountry = this.countryRepository.findIdByName(country);
         List<DeathsDTO> deathsResult = 
             this.deathsEntityToDTO(deathsRepository.deathsByCountry(idCountry, initialDate, finalDate), country);
@@ -37,7 +37,7 @@ public class DeathsServiceImpl implements DeathsService{
     @Override
     public List<DeathsDTO> deathsByDate(String country, LocalDate date) {
         // TODO Auto-generated method stub
-        this.apiCovidCallService.callApiCovidByDate(date.toString(), "deaths");
+        deathsRepository.saveAll(this.apiCovidCallService.callApiCovidByDate(date.toString(), "deaths"));
         Long idCountry = this.countryRepository.findIdByName(country);
         List<DeathsDTO> deathsResult = 
             this.deathsEntityToDTO(deathsRepository.deathsByCountry(idCountry, date, date), country);

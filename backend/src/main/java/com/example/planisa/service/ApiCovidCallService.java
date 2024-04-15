@@ -6,17 +6,16 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import com.example.planisa.entity.CasesEntity;
 import com.example.planisa.entity.CountryEntity;
 import com.example.planisa.entity.DeathsEntity;
-import com.example.planisa.repository.CasesRepository;
 import com.example.planisa.repository.CountryRepository;
-import com.example.planisa.repository.DeathsRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -24,33 +23,40 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ApiCovidCallService {
 
     @Autowired
-    private CasesRepository casesRepository;
-    @Autowired
-    private DeathsRepository deathsRepository; 
-    @Autowired
     private CountryRepository countryRepository;
 
-    public void callApiCovidByCountry(String country, String type){
+    public <T> List<T> callApiCovidByCountry(String country, String type){
         try {
             URL url = new URL("https://api.api-ninjas.com/v1/covid19?country="+country+"&type="+type);
-            this.callApiAndSaveEntity(url);
+            if (type.contentEquals("cases")){
+                return (List<T>) this.callApiCovidData(url, CasesEntity.class);
+            } else{
+                return (List<T>) this.callApiCovidData(url, DeathsEntity.class);
+            }
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        return null;
     }
 
-    public void callApiCovidByDate(String date, String type){
+    public <T> List<T> callApiCovidByDate(String date, String type){
         try {
             URL url = new URL("https://api.api-ninjas.com/v1/covid19?date="+date+"&type="+type);
-            this.callApiAndSaveEntity(url);
+            if (type.contentEquals("cases")){
+                return (List<T>) this.callApiCovidData(url, CasesEntity.class);
+            } else{
+                return (List<T>) this.callApiCovidData(url, DeathsEntity.class);
+            }  
         } catch (MalformedURLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        return null;
     }
 
-    private void callApiAndSaveEntity(URL url){
+    public <T> List<T> callApiCovidData(URL url, Class<T> entityClass) {
+        List<T> entities = new ArrayList<>();
         try {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("accept", "application/json");
@@ -58,19 +64,16 @@ public class ApiCovidCallService {
             InputStream responseStream = connection.getInputStream();
             ObjectMapper mapper = new ObjectMapper();
             JsonNode root = mapper.readTree(responseStream);
-            if (url.toString().contains("cases")){
-                this.mapAndSaveEntities(root, CasesEntity.class, this.casesRepository);
-            }
-            else{
-                this.mapAndSaveEntities(root, DeathsEntity.class, this.deathsRepository);
-            }
+            entities.addAll(mapEntities(root, entityClass));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } 
+        }
+        return entities; 
     }
-
-    private <T> void mapAndSaveEntities(JsonNode root, Class<T> entityClass, JpaRepository<T, Long> repository){
+    
+    private <T> List<T> mapEntities(JsonNode root, Class<T> entityClass) {
+        List<T> entities = new ArrayList<>();
         try {
             // Verificar o tipo de entidade para determinar o campo a ser usado (casos ou mortes)
             String fieldName = entityClass.equals(CasesEntity.class) ? "cases" : "deaths";
@@ -88,7 +91,7 @@ public class ApiCovidCallService {
                     try {
                         // Criar uma nova instância da entidade correspondente
                         T entity = entityClass.getDeclaredConstructor().newInstance();
-
+    
                         // Configurar os campos comuns a ambas as entidades
                         entity.getClass().getMethod("setCountry", CountryEntity.class)
                                 .invoke(entity, this.countryRepository.findByName(countryName));
@@ -99,8 +102,8 @@ public class ApiCovidCallService {
                         entity.getClass().getMethod("setNewOccurrences", String.class)
                                 .invoke(entity, dateNode.get("new").asText());
     
-                        // Salvar a entidade no banco de dados
-                        repository.save(entity);
+                        // Adicionar a entidade à lista de entidades
+                        entities.add(entity);
                     } catch (Exception e) {
                         // Tratar exceções adequadamente
                         e.printStackTrace();
@@ -111,6 +114,7 @@ public class ApiCovidCallService {
             // Tratar exceções adequadamente
             e.printStackTrace();
         }
+        return entities;
     }
     
 }
