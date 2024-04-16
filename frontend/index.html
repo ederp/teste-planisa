@@ -20,25 +20,34 @@
             <input list="countries2" id="listCountry2" class="country-input" required>
             <datalist id="country2"></datalist>
 
+            <label for="dataType">Dados:</label>
+            <select id="dataType" required>
+                <option selected disabled>Selecione</option>
+                <option value="totalCases">Casos entre um intervalo de dias</option>
+                <option value="totalDeaths">Mortes entre um intervalo de dias</option>
+                <option value="newCases">Casos em um único dia</option>
+                <option value="newDeaths">Mortes em um único dia</option>
+            </select>
+
             <label class="tooltip" for="fromDate">De:</label>
             <input type="date" id="fromDate" min="2020-01-22" max="2023-03-09" required>
 
             <label class="tooltip" for="toDate">Até:</label>
-            <input type="date" id="toDate" min="2020-01-22" max="2023-03-09" required>
-
-            <label for="dataType">Dados:</label>
-            <select id="dataType" required>
-                <option selected disabled>Selecione</option>
-                <option value="totalCases">Total de Casos</option>
-                <option value="totalDeaths">Total de Mortes</option>
-                <option value="newCases">Novos Casos</option>
-                <option value="newDeaths">Novas Mortes</option>
-            </select>
+            <input type="date" id="toDate" min="2020-01-22" max="2023-03-09">
 
             <button type="submit" id="getDataBtn" disabled>Obter Dados</button>
+
+            <button type="button" id="clearDataBtn">Limpar</button>
+
         </form>
 
-        <div id="result"></div>
+        <div id="dataResult">
+            <div id="loadingIndicator" style="display: none;">
+                <h3>Carregando os dados...</h3>
+            </div>
+
+            <div id="result"></div>
+        </div>
     </div>
 
     <script type="module" src="js/app.js"></script>

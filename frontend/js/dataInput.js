@@ -1,6 +1,8 @@
 export class DataInput {
 
     constructor(element) {
+        this.selectedCountry = '';
+
         const countryMap = {
             "Afeganistão": "Afghanistan",
             "África do Sul": "South Africa",
@@ -220,5 +222,16 @@ export class DataInput {
 
         countries1Input.appendChild(countries1Datalist);
         countries2Input.appendChild(countries2Datalist);
+
+        document.addEventListener('input', (event) => {
+            if (event.target.tagName === 'INPUT' && event.target.getAttribute('list')) {
+                const countryName = event.target.value;
+                const englishName = countryMap[countryName];
+                if (englishName) {
+                    event.target.value = englishName;
+                }
+            }
+        });
+        ;
     }
 }
