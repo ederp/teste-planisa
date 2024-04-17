@@ -27,4 +27,10 @@ Por fim, para rodar a aplicação, os seguintes passos se fazem necessários:
 * Tendo o Docker já instalado, usar o comando `docker-compose up` para subir o container da aplicação
 * Após a aplicação ser iniciada, os seguintes links estarão disponíveis: [http://127.0.0.1:3001/frontend/index.html](http://127.0.0.1:3001/frontend/index.html) para acessar a aplicação e 
 [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html) para consultar a documentação do Swagger.
-  
+
+
+Para usar a aplicação, cuja tela inicial tem este layout:  
+
+![Tela inicial da aplicação](https://github.com/ederp/teste-planisa/blob/main/COVID-19%20Dashboard.jpg)
+
+O usuário pode selecionar ou escrever uma parte dos dois países selecionados para a comparação, no seletor de dados, escolher um dos quatro comparativos ("Casos entre um intervalo de dias", "Mortes entre um intervalo de dias", "Casos em um único dia" e "Mortes em um único dia"), selecionar as datas, e clicar no botão "Obter dados" para ver a tabela gerada.
